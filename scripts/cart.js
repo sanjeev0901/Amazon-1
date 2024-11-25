@@ -9,5 +9,12 @@ const cart = {
       this.cartItems.push({ id, quantity });
     }
   },
+  getQuantityInCart() {
+    let count = 0;
+    this.cartItems.forEach((item) => {
+      count += item.quantity;
+    });
+    return count;
+  },
 };
 export default cart;
