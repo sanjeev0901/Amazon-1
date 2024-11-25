@@ -1,4 +1,5 @@
 import { products } from "../data/products.js";
+import cart from "./cart.js";
 
 let productsHTML = "";
 products.forEach((product) => {
@@ -15,7 +16,9 @@ products.forEach((product) => {
           class="product-rating-stars"
           src="images/ratings/rating-${product.rating.stars * 10}.png"
         />
-        <div class="product-rating-count link-primary">${product.count}</div>
+        <div class="product-rating-count link-primary">
+          ${product.rating.count}
+        </div>
       </div>
 
       <div class="product-price">$${(product.priceCents / 100).toFixed(2)}</div>
@@ -42,7 +45,10 @@ products.forEach((product) => {
         Added
       </div>
 
-      <button class="add-to-cart-button button-primary js-add-to-cart">
+      <button
+        class="add-to-cart-button button-primary js-add-to-cart"
+        data-id="${product.id}"
+      >
         Add to Cart
       </button>
     </div>
@@ -52,6 +58,6 @@ products.forEach((product) => {
 document.querySelector(".js-products-grid").innerHTML = productsHTML;
 document.querySelectorAll(".js-add-to-cart").forEach((button) => {
   button.addEventListener("click", () => {
-    console.log("Hello World");
+    cart.setItemsInCart(button);
   });
 });
