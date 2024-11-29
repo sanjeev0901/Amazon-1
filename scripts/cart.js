@@ -25,5 +25,12 @@ const cart = {
 
     return count;
   },
+  removeProductInCart(id) {
+    const index = this.cartItems.findIndex((item) => item.id === id);
+    if (index !== -1) {
+      this.cartItems.splice(index, 1); // Removes the item at the found index
+    }
+    this.setInStorage();
+  },
 };
 export default cart;

@@ -33,7 +33,7 @@ cart.cartItems.forEach((cartItem) => {
           <span class="update-quantity-link link-primary">
             Update
           </span>
-          <span class="delete-quantity-link link-primary">
+          <span class="delete-quantity-link link-primary" data-id=${id}>
             Delete
           </span>
         </div>
@@ -86,3 +86,13 @@ cart.cartItems.forEach((cartItem) => {
 
 const orderSummary = document.querySelector(".order-summary");
 orderSummary.innerHTML = checkoutHTML;
+
+document.querySelector(
+  ".return-to-home-link"
+).innerHTML = `${cart.getQuantityInCart()} Items`;
+
+document.querySelectorAll(".delete-quantity-link").forEach((button) => {
+  button.addEventListener("click", () => {
+    cart.removeProductInCart(button.dataset.id);
+  });
+});
