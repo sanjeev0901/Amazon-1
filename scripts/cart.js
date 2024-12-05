@@ -1,3 +1,5 @@
+import { products } from "../data/products.js";
+
 const cart = {
   cartItems: JSON.parse(localStorage.getItem("cartItems")) || [],
   setInStorage() {
@@ -31,6 +33,12 @@ const cart = {
       this.cartItems.splice(index, 1); // Removes the item at the found index
     }
     this.setInStorage();
+  },
+  getProduct(matchingId) {
+    const extractedProduct = products.find(({ id }) => {
+      return matchingId == id;
+    });
+    return extractedProduct;
   },
 };
 export default cart;

@@ -3,7 +3,7 @@ import cart from "./cart.js";
 
 // Utility to get a product by ID and add quantity
 const getProductWithQuantity = (product) => {
-  const extractedProduct = products.find(({ id }) => id == product.id);
+  const extractedProduct = cart.getProduct(product.id);
   return { ...extractedProduct, quantity: product.quantity };
 };
 
