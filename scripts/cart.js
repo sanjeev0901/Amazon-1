@@ -40,5 +40,14 @@ const cart = {
     });
     return extractedProduct;
   },
+  calculateTotalCost() {
+    let totalCost = 0;
+    this.cartItems.forEach((item) => {
+      const product = this.getProduct(item.id);
+      const { priceCents } = product;
+      totalCost += priceCents * item.quantity;
+    });
+    return totalCost;
+  },
 };
 export default cart;
