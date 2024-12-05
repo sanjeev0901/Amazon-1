@@ -1,5 +1,6 @@
 import { products } from "../data/products.js";
 import cart from "./cart.js";
+import money from "./utilities/money.js";
 
 // Utility to get a product by ID and add quantity
 const getProductWithQuantity = (product) => {
@@ -59,33 +60,52 @@ const generateDeliveryOptionsHTML = () => {
   `;
 };
 
-const generatePaymentDetailsHTML = (totalItems, totalCost) => {
+const generatePaymentDetailsHTML = (paymentDetails) => {
+  const {
+    totalItems,
+    tax,
+    shippingCost,
+    totalCost: totalProductsCost,
+  } = paymentDetails;
+  const totalBfTax = totalProductsCost + shippingCost;
+  const totalAfTax = (totalBfTax * tax) / 100;
+  const totalCost = totalBfTax + totalAfTax;
   return /*HTML*/ `
     <div class="payment-summary-title">Order Summary</div>
 
     <div class="payment-summary-row">
       <div>Items (${totalItems}):</div>
-      <div class="payment-summary-money">$${totalCost}</div>
+      <div class="payment-summary-money">$${money.convertToDollors(
+        totalProductsCost
+      )}</div>
     </div>
 
     <div class="payment-summary-row">
       <div>Shipping &amp; handling:</div>
-      <div class="payment-summary-money">$4.99</div>
+      <div class="payment-summary-money">$${money.convertToDollors(
+        shippingCost
+      )}</div>
     </div>
 
     <div class="payment-summary-row subtotal-row">
       <div>Total before tax:</div>
-      <div class="payment-summary-money">$${totalCost}</div>
+      <div class="payment-summary-money">$${money.convertToDollors(
+        totalBfTax
+      )}</div>
     </div>
 
     <div class="payment-summary-row">
       <div>Estimated tax (10%):</div>
-      <div class="payment-summary-money">$4.77</div>
+      <div class="payment-summary-money">$${money.convertToDollors(
+        totalAfTax
+      )}</div>
     </div>
 
     <div class="payment-summary-row total-row">
       <div>Order total:</div>
-      <div class="payment-summary-money">${totalCost}</div>
+      <div class="payment-summary-money">$${money.convertToDollors(
+        totalCost
+      )}</div>
     </div>
 
     <button class="place-order-button button-primary">
@@ -95,7 +115,13 @@ const generatePaymentDetailsHTML = (totalItems, totalCost) => {
 };
 
 const renderPayment = () => {
-  const paymentHTML = generatePaymentDetailsHTML(3, 100);
+  const paymentDetails = {
+    totalItems: cart.getQuantityInCart(),
+    totalCost: cart.calculateTotalCost(),
+    shippingCost: !cart.cartItems.lenght ? 499 : 0,
+    tax: !cart.cartItems.lenght ? 10 : 0,
+  };
+  const paymentHTML = generatePaymentDetailsHTML(paymentDetails);
   const paymentDiv = document.querySelector(".payment-summery");
   paymentDiv.innerHTML = paymentHTML;
 };
