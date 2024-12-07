@@ -50,4 +50,4 @@ const initializeCheckoutPage = () => {
   renderPayment();
 };
 
-initializeCheckoutPage();
+export { initializeCheckoutPage };
