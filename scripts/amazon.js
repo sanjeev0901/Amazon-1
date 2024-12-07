@@ -19,4 +19,4 @@ const initializeAmazonPage = () => {
   addAddToCartEventListeners();
 };
 
-initializeAmazonPage();
+export { initializeAmazonPage };
